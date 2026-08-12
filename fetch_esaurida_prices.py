@@ -9,30 +9,47 @@ TARGET_URLS = {
 
 async def scrape_category(page, url):
     print(f"Scraping: {url}")
-    await page.goto(url, wait_until="networkidle", timeout=60000)
+    # Go to URL and wait for network activity to settle
+    await page.goto(url, wait_until="domcontentloaded", timeout=60000)
     
-    # Scroll down to ensure dynamic content and lazy-loaded items render
+    # Wait specifically for the WooCommerce product loop grid to appear
+    try:
+        await page.wait_for_selector("ul.products, .product", timeout=10000)
+    except Exception:
+        print(f"Timeout waiting for products grid on {url}")
+
+    # Scroll down to trigger any lazy loading
+    await page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
+    await page.wait_for_timeout(1000)
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-    await page.wait_for_timeout(2000)
+    await page.wait_for_timeout(1500)
 
     products = await page.evaluate('''() => {
         const items = [];
-        // Match standard WooCommerce product cards
-        const cardElements = document.querySelectorAll('li.product, div.product, .type-product');
+        // Target standard WooCommerce product items
+        const cardElements = document.querySelectorAll('ul.products li.product, div.product');
         
         cardElements.forEach(card => {
-            const titleEl = card.querySelector('.woocommerce-loop-product__title, .product-title, h2, h3, a.woocommerce-LoopProduct-link');
+            // Find the title element specifically, bypassing badge spans
+            const titleEl = card.querySelector('h2.woocommerce-loop-product__title, .woocommerce-loop-product__title, h2, h3');
             const priceEl = card.querySelector('.price');
             
             if (titleEl && priceEl) {
-                const title = titleEl.innerText.trim();
+                let title = titleEl.innerText.trim();
+                
+                // Clean up title if promotional badges got mixed in
+                if (title.includes('BE PABRANGIMO')) {
+                    const parts = title.split('\\n');
+                    // Get the last clean line which is usually the title
+                    title = parts[parts.length - 1].trim();
+                }
+
                 const priceText = priceEl.innerText.trim().replace(/\\n/g, ' ');
                 
                 const insPrice = card.querySelector('ins .woocommerce-Price-amount');
                 const delPrice = card.querySelector('del .woocommerce-Price-amount');
                 
-                // Avoid empty duplicates
-                if (title) {
+                if (title && title.length > 2) {
                     items.push({
                         title: title,
                         current_price: insPrice ? insPrice.innerText.trim() : priceText,
