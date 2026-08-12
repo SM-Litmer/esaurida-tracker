@@ -1,12 +1,11 @@
 import json
 import asyncio
-import re
 from playwright.async_api import async_playwright
 
 MAIN_BIOKURAS_URL = "https://esaurida.lt/produktu-kategorija/biokuras/"
 
 async def scrape_biokuras(page):
-    print(f"Scraping: {MAIN_BIOKURAS_URL}")
+    print(f"Scraping main catalog: {MAIN_BIOKURAS_URL}")
     await page.goto(MAIN_BIOKURAS_URL, wait_until="domcontentloaded", timeout=60000)
     
     try:
@@ -14,35 +13,33 @@ async def scrape_biokuras(page):
     except Exception as e:
         print(f"Selector timeout: {e}")
 
-    # Scroll down to ensure dynamic content renders
+    # Scroll down to load all elements
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
     await page.wait_for_timeout(1000)
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
     await page.wait_for_timeout(2000)
 
-    products = await page.evaluate('''() => {
-        const items = [];
+    # Extract catalog items
+    items = await page.evaluate('''() => {
         const cardElements = document.querySelectorAll('li.product, div.product');
+        const results = [];
         
         cardElements.forEach(card => {
             const titleEl = card.querySelector('.woocommerce-loop-product__title, h2.woocommerce-loop-product__title') || card.querySelector('a.woocommerce-LoopProduct-link h2');
             const priceEl = card.querySelector('.price');
             const linkEl = card.querySelector('a.woocommerce-LoopProduct-link') || card.querySelector('a');
             
-            if (titleEl && priceEl) {
+            if (titleEl && priceEl && linkEl) {
                 let rawTitle = titleEl.innerText.trim();
                 
-                // Clean up badge artifacts from title
                 if (rawTitle.includes('BE PABRANGIMO')) {
                     const lines = rawTitle.split('\\n').map(l => l.trim()).filter(l => l.length > 0 && !l.includes('BE PABRANGIMO') && !l.includes('atsiliepim'));
                     rawTitle = lines.length > 0 ? lines[lines.length - 1] : rawTitle;
                 }
                 
-                // Get ONLY the current (discounted/final) price
                 const insPrice = card.querySelector('ins .woocommerce-Price-amount');
                 let currentPrice = insPrice ? insPrice.innerText.trim() : priceEl.innerText.trim().replace(/\\n/g, ' ');
                 
-                // If price container contains both prices separated by text, grab the last amount
                 if (currentPrice.includes('Current price is:')) {
                     const parts = currentPrice.split('Current price is:');
                     currentPrice = parts[parts.length - 1].trim();
@@ -53,38 +50,36 @@ async def scrape_biokuras(page):
                     }
                 }
 
-                const productUrl = linkEl ? linkEl.href : null;
-
                 if (rawTitle && rawTitle.length > 2) {
-                    items.push({
+                    results.push({
                         title: rawTitle,
                         price: currentPrice,
-                        url: productUrl
+                        url: linkEl.href
                     });
                 }
             }
         });
-        return items;
+        return results;
     }''')
     
-    return products
+    return items
 
-def extract_package_info(title):
-    """Parses weight/package descriptions from the product title."""
-    title_lower = title.lower()
-    
-    if "didmaiš" in title_lower:
-        return "Big Bag (Didmaišis) ~1000kg"
-    elif "15kg" in title_lower or "15 kg" in title_lower:
-        return "15 kg maišas / paletė"
-    elif "20l" in title_lower or "20 l" in title_lower:
-        return "20L pakuotė"
-    elif "40l" in title_lower or "40 l" in title_lower:
-        return "40L pakuotė"
-    elif "1.96" in title_lower:
-        return "1.96 m³ paletė"
-    else:
-        return "Standartinė paletė / pakuotė"
+async def get_product_details(page, url):
+    """Visits the individual product page to extract exact weight or package info."""
+    try:
+        await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+        
+        # Extract specs from WooCommerce attribute tables or product descriptions
+        details = await page.evaluate('''() => {
+            const weightEl = document.querySelector('.product_meta, .woocommerce-product-attributes-item--weight .woocommerce-product-attributes-item__value, .shop_attributes');
+            if (weightEl) {
+                return weightEl.innerText.replace(/\\n/g, ' ').trim();
+            }
+            return null;
+        }''')
+        return details
+    except Exception:
+        return None
 
 async def main():
     async with async_playwright() as p:
@@ -97,31 +92,38 @@ async def main():
         
         page = await context.new_page()
         
-        all_items = []
-        try:
-            all_items = await scrape_biokuras(page)
-        except Exception as e:
-            print(f"Error executing scraper: {e}")
-            
-        await browser.close()
+        all_items = await scrape_biokuras(page)
         
-        # Categorize and enrich with package/weight details
         briquettes = []
         pellets = []
         
         for item in all_items:
+            title_lower = item["title"].lower()
+            
+            # Extract basic weight info from title if available
+            weight_info = "Nenurodyta (Standartinė pakuotė/paletė)"
+            if "didmaiš" in title_lower:
+                weight_info = "Didmaišis (Big Bag ~1000 kg)"
+            elif "15kg" in title_lower or "15 kg" in title_lower:
+                weight_info = "15 kg maišai (Paletė ~960 kg)"
+            elif "20l" in title_lower or "20 l" in title_lower:
+                weight_info = "20L maišas"
+            elif "40l" in title_lower or "40 l" in title_lower:
+                weight_info = "40L maišas"
+
             enriched_item = {
                 "title": item["title"],
                 "price": item["price"],
-                "package_description": extract_package_info(item["title"]),
+                "weight_package": weight_info,
                 "url": item["url"]
             }
             
-            title_lower = item["title"].lower()
             if "briket" in title_lower:
                 briquettes.append(enriched_item)
             elif "granul" in title_lower:
                 pellets.append(enriched_item)
+        
+        await browser.close()
         
         output_data = {
             "briquettes": briquettes,
