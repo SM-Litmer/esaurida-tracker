@@ -1,11 +1,12 @@
 import json
 import asyncio
+import re
 from playwright.async_api import async_playwright
 
 MAIN_BIOKURAS_URL = "https://esaurida.lt/produktu-kategorija/biokuras/"
 
-async def scrape_biokuras(page):
-    print(f"Scraping main catalog: {MAIN_BIOKURAS_URL}")
+async def scrape_biokuras_catalog(page):
+    print(f"Scraping catalog: {MAIN_BIOKURAS_URL}")
     await page.goto(MAIN_BIOKURAS_URL, wait_until="domcontentloaded", timeout=60000)
     
     try:
@@ -13,13 +14,11 @@ async def scrape_biokuras(page):
     except Exception as e:
         print(f"Selector timeout: {e}")
 
-    # Scroll down to load all elements
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
     await page.wait_for_timeout(1000)
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-    await page.wait_for_timeout(2000)
+    await page.wait_for_timeout(1500)
 
-    # Extract catalog items
     items = await page.evaluate('''() => {
         const cardElements = document.querySelectorAll('li.product, div.product');
         const results = [];
@@ -64,21 +63,35 @@ async def scrape_biokuras(page):
     
     return items
 
-async def get_product_details(page, url):
-    """Visits the individual product page to extract exact weight or package info."""
+async def extract_exact_weight(page, url):
+    """Visits the individual product URL and extracts exact weight details."""
+    print(f"Fetching details from: {url}")
     try:
-        await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+        await page.goto(url, wait_until="domcontentloaded", timeout=20000)
         
-        # Extract specs from WooCommerce attribute tables or product descriptions
-        details = await page.evaluate('''() => {
-            const weightEl = document.querySelector('.product_meta, .woocommerce-product-attributes-item--weight .woocommerce-product-attributes-item__value, .shop_attributes');
-            if (weightEl) {
-                return weightEl.innerText.replace(/\\n/g, ' ').trim();
+        weight = await page.evaluate('''() => {
+            // Look for WooCommerce attribute table or specification text
+            const attributeRows = document.querySelectorAll('tr.woocommerce-product-attributes-item');
+            for (let row of attributeRows) {
+                const label = row.querySelector('th');
+                const value = row.querySelector('td');
+                if (label && value && label.innerText.toLowerCase().includes('svoris')) {
+                    return value.innerText.trim();
+                }
+            }
+            
+            // Fallback: look inside product meta or short description
+            const meta = document.querySelector('.product_meta, .woocommerce-product-details__short-description');
+            if (meta) {
+                const text = meta.innerText;
+                const match = text.match(/(\\d+\\s*(kg|t|g|m3|L))/i);
+                if (match) return match[0];
             }
             return null;
         }''')
-        return details
-    except Exception:
+        return weight
+    except Exception as e:
+        print(f"Could not extract weight for {url}: {e}")
         return None
 
 async def main():
@@ -91,8 +104,7 @@ async def main():
         )
         
         page = await context.new_page()
-        
-        all_items = await scrape_biokuras(page)
+        all_items = await scrape_biokuras_catalog(page)
         
         briquettes = []
         pellets = []
@@ -100,28 +112,30 @@ async def main():
         for item in all_items:
             title_lower = item["title"].lower()
             
-            # Extract basic weight info from title if available
-            weight_info = "Nenurodyta (Standartinė pakuotė/paletė)"
-            if "didmaiš" in title_lower:
-                weight_info = "Didmaišis (Big Bag ~1000 kg)"
-            elif "15kg" in title_lower or "15 kg" in title_lower:
-                weight_info = "15 kg maišai (Paletė ~960 kg)"
-            elif "20l" in title_lower or "20 l" in title_lower:
-                weight_info = "20L maišas"
-            elif "40l" in title_lower or "40 l" in title_lower:
-                weight_info = "40L maišas"
+            if "briket" in title_lower or "granul" in title_lower:
+                # Visit the product page to get the exact weight attribute
+                exact_weight = await extract_exact_weight(page, item["url"])
+                
+                # Default fallback if weight attribute isn't listed on eSaurida
+                if not exact_weight:
+                    if "didmaiš" in title_lower:
+                        exact_weight = "~1000 kg (Didmaišis)"
+                    elif "15kg" in title_lower or "15 kg" in title_lower:
+                        exact_weight = "15 kg maišas / ~960 kg paletė"
+                    else:
+                        exact_weight = "~960 kg (Standartinė paletė)"
 
-            enriched_item = {
-                "title": item["title"],
-                "price": item["price"],
-                "weight_package": weight_info,
-                "url": item["url"]
-            }
-            
-            if "briket" in title_lower:
-                briquettes.append(enriched_item)
-            elif "granul" in title_lower:
-                pellets.append(enriched_item)
+                enriched_item = {
+                    "title": item["title"],
+                    "price": item["price"],
+                    "weight_package": exact_weight,
+                    "url": item["url"]
+                }
+                
+                if "briket" in title_lower:
+                    briquettes.append(enriched_item)
+                elif "granul" in title_lower:
+                    pellets.append(enriched_item)
         
         await browser.close()
         
