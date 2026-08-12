@@ -2,65 +2,65 @@
   "briquettes": [
     {
       "title": "Durpių briketai didmaišiuose",
-      "current_price": "€460.00",
-      "original_price": "€500.00",
-      "raw_price_string": "€500.00 Original price was: €500.00. €460.00 Current price is: €460.00."
+      "price": "€460.00",
+      "package_description": "Big Bag (Didmaišis) ~1000kg",
+      "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
     },
     {
       "title": "Ąžuolo pjuvenų briketai Pini Kay",
-      "current_price": "€490.00",
-      "original_price": "€510.00",
-      "raw_price_string": "€510.00 Original price was: €510.00. €490.00 Current price is: €490.00."
+      "price": "€490.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/azuolo-pjuvenu-briketai-pini-kay/"
     },
     {
       "title": "Lapuočių RUF briketai",
-      "current_price": "€520.00",
-      "original_price": "€550.00",
-      "raw_price_string": "€550.00 Original price was: €550.00. €520.00 Current price is: €520.00."
+      "price": "€520.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/lapuociu-ruf-briketai/"
     },
     {
       "title": "Kietmedžio RUF briketai",
-      "current_price": "€540.00",
-      "original_price": "€570.00",
-      "raw_price_string": "€570.00 Original price was: €570.00. €540.00 Current price is: €540.00."
+      "price": "€540.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/kietmedzio-ruf-briketai/"
     },
     {
       "title": "Beržo Nestro briketai",
-      "current_price": "€500.00",
-      "original_price": null,
-      "raw_price_string": "€500.00"
+      "price": "€500.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/berzo-nestro-briketai/"
     },
     {
       "title": "Lapuočių briketai",
-      "current_price": "€500.00",
-      "original_price": null,
-      "raw_price_string": "€500.00"
+      "price": "€500.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
     },
     {
       "title": "Beržo briketai",
-      "current_price": "€510.00",
-      "original_price": null,
-      "raw_price_string": "€510.00"
+      "price": "€510.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/berzo-briketai/"
     },
     {
       "title": "Kietmedžio briketai",
-      "current_price": "€520.00",
-      "original_price": null,
-      "raw_price_string": "€520.00"
+      "price": "€520.00",
+      "package_description": "Standartinė paletė / pakuotė",
+      "url": "https://esaurida.lt/produktas/kietmedzio-briketai/"
     }
   ],
   "pellets": [
     {
       "title": "Granulės didmaišiuose",
-      "current_price": "€490.00",
-      "original_price": "€550.00",
-      "raw_price_string": "€550.00 Original price was: €550.00. €490.00 Current price is: €490.00."
+      "price": "€490.00",
+      "package_description": "Big Bag (Didmaišis) ~1000kg",
+      "url": "https://esaurida.lt/produktas/granules-didmaisiuose/"
     },
     {
       "title": "Medienos granulės maišeliuose 15kg",
-      "current_price": "€590.00",
-      "original_price": null,
-      "raw_price_string": "€590.00"
+      "price": "€590.00",
+      "package_description": "15 kg maišas / paletė",
+      "url": "https://esaurida.lt/produktas/medienos-granules-maiseliuose-15kg/"
     }
   ]
 }
