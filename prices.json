@@ -1,0 +1,17 @@
+{
+  "briquettes": [],
+  "pellets": [
+    {
+      "title": "Granulės didmaišiuose",
+      "current_price": "€490.00",
+      "original_price": "€550.00",
+      "raw_price_string": "€550.00 Original price was: €550.00. €490.00 Current price is: €490.00."
+    },
+    {
+      "title": "Medienos granulės maišeliuose 15kg",
+      "current_price": "€590.00",
+      "original_price": null,
+      "raw_price_string": "€590.00"
+    }
+  ]
+}
