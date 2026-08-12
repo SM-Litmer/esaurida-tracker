@@ -1,5 +1,54 @@
 {
-  "briquettes": [],
+  "briquettes": [
+    {
+      "title": "Durpių briketai didmaišiuose",
+      "current_price": "€460.00",
+      "original_price": "€500.00",
+      "raw_price_string": "€500.00 Original price was: €500.00. €460.00 Current price is: €460.00."
+    },
+    {
+      "title": "Ąžuolo pjuvenų briketai Pini Kay",
+      "current_price": "€490.00",
+      "original_price": "€510.00",
+      "raw_price_string": "€510.00 Original price was: €510.00. €490.00 Current price is: €490.00."
+    },
+    {
+      "title": "Lapuočių RUF briketai",
+      "current_price": "€520.00",
+      "original_price": "€550.00",
+      "raw_price_string": "€550.00 Original price was: €550.00. €520.00 Current price is: €520.00."
+    },
+    {
+      "title": "Kietmedžio RUF briketai",
+      "current_price": "€540.00",
+      "original_price": "€570.00",
+      "raw_price_string": "€570.00 Original price was: €570.00. €540.00 Current price is: €540.00."
+    },
+    {
+      "title": "Beržo Nestro briketai",
+      "current_price": "€500.00",
+      "original_price": null,
+      "raw_price_string": "€500.00"
+    },
+    {
+      "title": "Lapuočių briketai",
+      "current_price": "€500.00",
+      "original_price": null,
+      "raw_price_string": "€500.00"
+    },
+    {
+      "title": "Beržo briketai",
+      "current_price": "€510.00",
+      "original_price": null,
+      "raw_price_string": "€510.00"
+    },
+    {
+      "title": "Kietmedžio briketai",
+      "current_price": "€520.00",
+      "original_price": null,
+      "raw_price_string": "€520.00"
+    }
+  ],
   "pellets": [
     {
       "title": "Granulės didmaišiuose",
