@@ -2,59 +2,51 @@ import json
 import asyncio
 from playwright.async_api import async_playwright
 
-TARGET_URLS = {
-    "briquettes": "https://esaurida.lt/produktu-kategorija/biokuras/briketai/",
-    "pellets": "https://esaurida.lt/produktu-kategorija/biokuras/granules/"
-}
+BIOKURA_URL = "https://esaurida.lt/produktu-kategorija/biokuras/"
 
-async def scrape_category(page, url):
-    print(f"Scraping: {url}")
-    # Go to URL and wait for network activity to settle
-    await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+async def scrape_all_biokuras(page):
+    print(f"Scraping main page: {BIOKURA_URL}")
+    await page.goto(BIOKURA_URL, wait_until="domcontentloaded", timeout=60000)
     
-    # Wait specifically for the WooCommerce product loop grid to appear
+    # Wait for products grid
     try:
-        await page.wait_for_selector("ul.products, .product", timeout=10000)
-    except Exception:
-        print(f"Timeout waiting for products grid on {url}")
+        await page.wait_for_selector(".product, li.type-product", timeout=15000)
+    except Exception as e:
+        print(f"Warning: Timeout waiting for selectors: {e}")
 
-    # Scroll down to trigger any lazy loading
+    # Scroll down to load all items
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
     await page.wait_for_timeout(1000)
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-    await page.wait_for_timeout(1500)
+    await page.wait_for_timeout(2000)
 
     products = await page.evaluate('''() => {
         const items = [];
-        // Target standard WooCommerce product items
-        const cardElements = document.querySelectorAll('ul.products li.product, div.product');
+        const cardElements = document.querySelectorAll('li.product, div.product');
         
         cardElements.forEach(card => {
-            // Find the title element specifically, bypassing badge spans
-            const titleEl = card.querySelector('h2.woocommerce-loop-product__title, .woocommerce-loop-product__title, h2, h3');
+            const titleEl = card.querySelector('.woocommerce-loop-product__title, h2.woocommerce-loop-product__title, h2, h3');
             const priceEl = card.querySelector('.price');
             
             if (titleEl && priceEl) {
-                let title = titleEl.innerText.trim();
+                let titleText = titleEl.innerText.trim();
                 
-                // Clean up title if promotional badges got mixed in
-                if (title.includes('BE PABRANGIMO')) {
-                    const parts = title.split('\\n');
-                    // Get the last clean line which is usually the title
-                    title = parts[parts.length - 1].trim();
+                // Clean up title if badge text got caught
+                if (titleText.includes('BE PABRANGIMO')) {
+                    const lines = titleText.split('\\n').map(l => l.trim()).filter(l => l.length > 0);
+                    titleText = lines[lines.length - 1];
                 }
-
-                const priceText = priceEl.innerText.trim().replace(/\\n/g, ' ');
                 
                 const insPrice = card.querySelector('ins .woocommerce-Price-amount');
                 const delPrice = card.querySelector('del .woocommerce-Price-amount');
+                const rawPrice = priceEl.innerText.trim().replace(/\\n/g, ' ');
                 
-                if (title && title.length > 2) {
+                if (titleText && titleText.length > 2) {
                     items.push({
-                        title: title,
-                        current_price: insPrice ? insPrice.innerText.trim() : priceText,
+                        title: titleText,
+                        current_price: insPrice ? insPrice.innerText.trim() : rawPrice,
                         original_price: delPrice ? delPrice.innerText.trim() : null,
-                        raw_price_string: priceText
+                        raw_price_string: rawPrice
                     });
                 }
             }
@@ -74,19 +66,26 @@ async def main():
         )
         
         page = await context.new_page()
-        all_data = {}
         
-        for category, url in TARGET_URLS.items():
-            try:
-                all_data[category] = await scrape_category(page, url)
-            except Exception as e:
-                print(f"Error scraping {category}: {e}")
-                all_data[category] = []
-                
+        all_products = []
+        try:
+            all_products = await scrape_all_biokuras(page)
+        except Exception as e:
+            print(f"Error scraping: {e}")
+            
         await browser.close()
         
+        # Categorize products by keyword
+        briquettes = [p for p in all_products if "briket" in p["title"].lower()]
+        pellets = [p for p in all_products if "granul" in p["title"].lower()]
+        
+        structured_data = {
+            "briquettes": briquettes,
+            "pellets": pellets
+        }
+        
         with open("prices.json", "w", encoding="utf-8") as f:
-            json.dump(all_data, f, indent=2, ensure_ascii=False)
+            json.dump(structured_data, f, indent=2, ensure_ascii=False)
 
 if __name__ == "__main__":
     asyncio.run(main())
