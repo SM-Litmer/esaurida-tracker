@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-19T04:56:37Z",
+  "last_updated": "2026-08-20T04:59:04Z",
   "briquettes": [
     {
       "title": "Durpių briketai didmaišiuose",
@@ -9,18 +9,18 @@
       "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
     },
     {
-      "title": "Lapuočių briketai",
-      "price": "€470.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
-    },
-    {
       "title": "Ąžuolo pjuvenų briketai Pini Kay",
       "price": "€490.00",
       "weight": "960 kg",
       "package": "Paletė",
       "url": "https://esaurida.lt/produktas/azuolo-pjuvenu-briketai-pini-kay/"
+    },
+    {
+      "title": "Lapuočių briketai",
+      "price": "€490.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
     },
     {
       "title": "Lapuočių RUF briketai",
