@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-24T05:24:43Z",
+  "last_updated": "2026-08-25T05:05:35Z",
   "briquettes": [
     {
       "title": "Spygliuočių briketai",
@@ -9,11 +9,18 @@
       "url": "https://esaurida.lt/produktas/spygliuociu-briketai/"
     },
     {
-      "title": "Durpių briketai didmaišiuose",
+      "title": "Lapuočių briketai",
       "price": "€460.00",
-      "weight": "1000 kg",
-      "package": "Didmaišis",
-      "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
+    },
+    {
+      "title": "Beržo briketai",
+      "price": "€470.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/berzo-briketai/"
     },
     {
       "title": "Ąžuolo pjuvenų briketai Pini Kay",
@@ -23,25 +30,11 @@
       "url": "https://esaurida.lt/produktas/azuolo-pjuvenu-briketai-pini-kay/"
     },
     {
-      "title": "Lapuočių briketai",
-      "price": "€490.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
-    },
-    {
-      "title": "Lapuočių RUF briketai",
-      "price": "€520.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/lapuociu-ruf-briketai/"
-    },
-    {
-      "title": "Kietmedžio RUF briketai",
-      "price": "€540.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/kietmedzio-ruf-briketai/"
+      "title": "Durpių briketai didmaišiuose",
+      "price": "€430.00",
+      "weight": "1000 kg",
+      "package": "Didmaišis",
+      "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
     },
     {
       "title": "Beržo Nestro briketai",
@@ -51,18 +44,25 @@
       "url": "https://esaurida.lt/produktas/berzo-nestro-briketai/"
     },
     {
-      "title": "Beržo briketai",
-      "price": "€510.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/berzo-briketai/"
-    },
-    {
       "title": "Kietmedžio briketai",
       "price": "€520.00",
       "weight": "960 kg",
       "package": "Paletė",
       "url": "https://esaurida.lt/produktas/kietmedzio-briketai/"
+    },
+    {
+      "title": "Lapuočių RUF briketai",
+      "price": "€540.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/lapuociu-ruf-briketai/"
+    },
+    {
+      "title": "Kietmedžio RUF briketai",
+      "price": "€550.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/kietmedzio-ruf-briketai/"
     }
   ],
   "pellets": [
