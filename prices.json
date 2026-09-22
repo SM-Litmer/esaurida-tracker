@@ -1,6 +1,13 @@
 {
-  "last_updated": "2026-09-21T08:23:18Z",
+  "last_updated": "2026-09-22T08:05:27Z",
   "briquettes": [
+    {
+      "title": "Spygliuočių briketai",
+      "price": "€420.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/spygliuociu-briketai/"
+    },
     {
       "title": "Beržo briketai",
       "price": "€470.00",
@@ -14,13 +21,6 @@
       "weight": "960 kg",
       "package": "Paletė",
       "url": "https://esaurida.lt/produktas/azuolo-pjuvenu-briketai-pini-kay/"
-    },
-    {
-      "title": "Durpių briketai didmaišiuose",
-      "price": "€430.00",
-      "weight": "1000 kg",
-      "package": "Didmaišis",
-      "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
     },
     {
       "title": "Lapuočių briketai",
@@ -40,7 +40,7 @@
     },
     {
       "title": "Medienos granulės maišeliuose 15kg",
-      "price": "€540.00",
+      "price": "€510.00",
       "weight": "1050 kg",
       "package": "Maišeliai (15 kg) ant paletės",
       "url": "https://esaurida.lt/produktas/medienos-granules-maiseliuose-15kg/"
