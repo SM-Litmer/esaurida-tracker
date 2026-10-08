@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-07T09:33:21Z",
+  "last_updated": "2026-10-08T09:44:30Z",
   "briquettes": [
     {
       "title": "Spygliuočių briketai",
@@ -35,6 +35,13 @@
       "weight": "1000 kg",
       "package": "Didmaišis",
       "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
+    },
+    {
+      "title": "Beržo Nestro briketai",
+      "price": "€500.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/berzo-nestro-briketai/"
     }
   ],
   "pellets": [
