@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-28T09:09:34Z",
+  "last_updated": "2026-10-29T09:08:13Z",
   "briquettes": [
     {
       "title": "Durpių briketai didmaišiuose",
@@ -60,18 +60,18 @@
   ],
   "pellets": [
     {
+      "title": "Medienos granulės maišeliuose 15kg",
+      "price": "€470.00",
+      "weight": "1050 kg",
+      "package": "Maišeliai (15 kg) ant paletės",
+      "url": "https://esaurida.lt/produktas/medienos-granules-maiseliuose-15kg/"
+    },
+    {
       "title": "Granulės didmaišiuose",
       "price": "€490.00",
       "weight": "1000 kg",
       "package": "Didmaišis",
       "url": "https://esaurida.lt/produktas/granules-didmaisiuose/"
-    },
-    {
-      "title": "Medienos granulės maišeliuose 15kg",
-      "price": "€510.00",
-      "weight": "1050 kg",
-      "package": "Maišeliai (15 kg) ant paletės",
-      "url": "https://esaurida.lt/produktas/medienos-granules-maiseliuose-15kg/"
     }
   ]
 }
