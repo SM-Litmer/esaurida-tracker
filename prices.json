@@ -1,19 +1,19 @@
 {
-  "last_updated": "2026-11-12T10:29:26Z",
+  "last_updated": "2026-11-13T10:22:02Z",
   "briquettes": [
+    {
+      "title": "Lapuočių briketai",
+      "price": "€390.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
+    },
     {
       "title": "Durpių briketai didmaišiuose",
       "price": "€390.00",
       "weight": "1000 kg",
       "package": "Didmaišis",
       "url": "https://esaurida.lt/produktas/durpiu-briketai-didmaisiuose/"
-    },
-    {
-      "title": "Lapuočių briketai",
-      "price": "€400.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
     },
     {
       "title": "Beržo briketai",
