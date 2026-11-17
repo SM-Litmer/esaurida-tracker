@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-16T10:23:10Z",
+  "last_updated": "2026-11-17T11:21:19Z",
   "briquettes": [
     {
       "title": "Durpių briketai didmaišiuose",
@@ -14,6 +14,13 @@
       "weight": "960 kg",
       "package": "Paletė",
       "url": "https://esaurida.lt/produktas/spygliuociu-briketai/"
+    },
+    {
+      "title": "Beržo briketai Kauno miestas ir rajonas",
+      "price": "€410.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/berzo-briketai-kauno-miestas-ir-rajonas/"
     },
     {
       "title": "Lapuočių briketai",
@@ -45,6 +52,13 @@
     }
   ],
   "pellets": [
+    {
+      "title": "Medienos granulės maišeliuose 15kg Šiaulių miestas ir rajonas",
+      "price": "€455.00",
+      "weight": "1050 kg",
+      "package": "Maišeliai (15 kg) ant paletės",
+      "url": "https://esaurida.lt/produktas/medienos-granules-maiseliuose-15kg-siauliu-miestas-ir-rajonas/"
+    },
     {
       "title": "Medienos granulės maišeliuose 15kg",
       "price": "€470.00",
