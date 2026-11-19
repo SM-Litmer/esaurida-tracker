@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-18T10:54:29Z",
+  "last_updated": "2026-11-19T10:56:48Z",
   "briquettes": [
     {
       "title": "Durpių briketai didmaišiuose",
@@ -16,18 +16,18 @@
       "url": "https://esaurida.lt/produktas/spygliuociu-briketai/"
     },
     {
-      "title": "Beržo briketai Kauno miestas ir rajonas",
-      "price": "€410.00",
-      "weight": "960 kg",
-      "package": "Paletė",
-      "url": "https://esaurida.lt/produktas/berzo-briketai-kauno-miestas-ir-rajonas/"
-    },
-    {
       "title": "Lapuočių briketai",
       "price": "€410.00",
       "weight": "960 kg",
       "package": "Paletė",
       "url": "https://esaurida.lt/produktas/lapuociu-pjuvenu-briketai-1ipak-10kg-96vnt/"
+    },
+    {
+      "title": "Beržo briketai Kauno miestas ir rajonas",
+      "price": "€410.00",
+      "weight": "960 kg",
+      "package": "Paletė",
+      "url": "https://esaurida.lt/produktas/berzo-briketai-kauno-miestas-ir-rajonas/"
     },
     {
       "title": "Beržo briketai",
